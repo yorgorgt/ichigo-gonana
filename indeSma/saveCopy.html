@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>保存クリップボードコピー</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; max-width: 720px; margin: 0 auto; padding: 16px; }
+h1 { font-size: 1.2rem; margin-bottom: 12px; }
+#inputArea { margin-bottom: 24px; }
+#inputArea textarea {
+  width: 100%; min-height: 160px; padding: 8px;
+  font-family: monospace; font-size: 14px; resize: vertical;
+}
+#saveBtn {
+  margin-top: 8px; padding: 6px 20px; cursor: pointer;
+  font-size: 14px;
+}
+#copyArea .row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 0; border-bottom: 1px solid #eee;
+}
+#copyArea .row button {
+  flex-shrink: 0; padding: 3px 10px; cursor: pointer; font-size: 13px;
+}
+#copyArea .row .content {
+  white-space: pre-wrap; word-break: break-all; font-family: monospace; font-size: 14px;
+}
+.copied { color: green; font-size: 12px; margin-left: 4px; }
+</style>
+</head>
+<body>
+<h1>保存クリップボードコピー</h1>
+
+<div id="inputArea">
+  <textarea id="textInput"></textarea>
+  <button id="saveBtn">保存</button>
+</div>
+
+<div id="copyArea"></div>
+
+<script>
+const STORAGE_KEY = 'saveCopy_data';
+const textInput = document.getElementById('textInput');
+const saveBtn = document.getElementById('saveBtn');
+const copyArea = document.getElementById('copyArea');
+
+function escapeHTML(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function buildCopyUI(lines) {
+  copyArea.innerHTML = '';
+  for (const line of lines) {
+    const row = document.createElement('div');
+    row.className = 'row';
+
+    const btn = document.createElement('button');
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', () => {
+      navigator.clipboard.writeText(line).then(() => {
+        let span = row.querySelector('.copied');
+        if (!span) {
+          span = document.createElement('span');
+          span.className = 'copied';
+          row.appendChild(span);
+        }
+        span.textContent = 'Copied!';
+        setTimeout(() => { span.textContent = ''; }, 1500);
+      });
+    });
+
+    const content = document.createElement('span');
+    content.className = 'content';
+    content.textContent = line;
+
+    row.appendChild(btn);
+    row.appendChild(content);
+    copyArea.appendChild(row);
+  }
+}
+
+function save() {
+  const raw = textInput.value;
+  localStorage.setItem(STORAGE_KEY, raw);
+  const lines = raw.split('\n');
+  buildCopyUI(lines);
+}
+
+function load() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved != null) {
+    textInput.value = saved;
+    buildCopyUI(saved.split('\n'));
+  }
+}
+
+saveBtn.addEventListener('click', save);
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+:root {
+  --bg: #fafafa;
+  --surface: #fff;
+  --border: #e0e0e0;
+  --text: #222;
+  --text-sub: #666;
+  --accent: #1a5fb4;
+  --accent-hover: #134a8e;
+  --tag-bg: #eef3fb;
+  --tag-text: #1a5fb4;
+  --radius: 6px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  min-height: 100dvh;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  color: var(--accent-hover);
+}
+
+/* Layout */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+}
+.site-header .inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.site-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.site-title:hover {
+  text-decoration: none;
+}
+.site-nav {
+  display: flex;
+  gap: 16px;
+  font-size: 0.9rem;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+/* Page heading */
+.page-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.page-description {
+  color: var(--text-sub);
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.breadcrumb span::after {
+  content: " ›";
+  margin-left: 4px;
+}
+.breadcrumb span:last-child::after {
+  content: "";
+}
+
+.incident-list-controls {
+  margin-bottom: 1rem;
+}
+.shuffle-btn {
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.shuffle-btn:hover {
+  background: var(--tag-bg);
+}
+
+/* Incident card */
+.incident-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.incident-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: box-shadow 0.15s;
+}
+.incident-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.incident-date {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+  margin-bottom: 4px;
+}
+.incident-summary {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.incident-meta {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 9px;
+  column-gap: 16px;
+  align-items: center;
+  font-size: 0.85rem;
+}
+.incident-actors,
+.incident-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+.incident-actors .label,
+.incident-categories .label {
+  color: var(--text-sub);
+  margin-right: 2px;
+}
+.tag {
+  display: inline-block;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  padding: 2px 10px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.tag.tag-nolink {
+  color: #000;
+}
+.tag.tag-category {
+  background: #f0f0f0;
+}
+/* Actor info icon & popup */
+.actor-tag-wrap {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  gap: 2px;
+}
+.info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  background: var(--tag-bg);
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-style: italic;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  flex-shrink: 0;
+}
+.info-icon:hover {
+  background: var(--accent);
+  color: #fff;
+}
+.info-popup {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 100;
+  min-width: 180px;
+  white-space: nowrap;
+}
+.info-popup.show {
+  display: block;
+}
+.info-popup-title {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+  margin-bottom: 6px;
+}
+.info-popup ul {
+  list-style: none;
+}
+.info-popup li {
+  padding: 2px 0;
+  font-size: 0.85rem;
+}
+
+.incident-links {
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+.incident-links a {
+  word-break: break-all;
+}
+
+/* Sidebar-style lists on index */
+.section-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+@media (max-width: 640px) {
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.section-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.section-box h2 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.section-box ul {
+  list-style: none;
+}
+.section-box li {
+  padding: 4px 0;
+  font-size: 0.9rem;
+}
+
+/* Person list (actor-category detail) */
+.person-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.person-list li a {
+  display: inline-block;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  padding: 4px 14px;
+  border-radius: 100px;
+  font-size: 0.9rem;
+  transition: background 0.15s, color 0.15s;
+}
+.person-list li a:hover {
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Footer */
+.site-footer {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--text-sub);
+  font-size: 0.8rem;
+}
+
+/* Back to top */
+.back-to-top a {
+  color: var(--text-sub);
+  font-size: 0.8rem;
+}
+.back-to-top a:hover {
+  color: var(--accent-hover);
+}
+
+/* Empty state */
+.empty {
+  color: var(--text-sub);
+  font-style: italic;
+  padding: 20px 0;
+}
